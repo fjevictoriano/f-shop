@@ -1,0 +1,32 @@
+@tailwind preflight;
+@tailwind components;
+@tailwind utilities;
+
+.btn-green {
+	@apply bg-green-light text-white font-bold border-none p-1;
+}
+
+.btn-green:hover {
+	@apply bg-green-dark;
+}
+
+.btn-green:focus {
+	@apply outline-none shadow-outline;
+}
+
+.input {
+	@apply shadow appearance-none border rounded border-none w-5/6 text-grey-darker m-2 leading-tight p-2;
+}
+
+.input:focus {
+	@apply outline-none shadow-outline;
+}
+
+label {
+	@apply block text-grey-darker text-sm font-bold mb-2 m-2;
+}
+
+a:link,
+a:visited {
+	color: #ffffff;
+}
