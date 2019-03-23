@@ -1,7 +1,7 @@
-import React from "react";
+import React, {useState, useEffect} from "react";
+import firebase from "../Firebase";
+
 import AddProductForm from "../components/AddProductForm";
-import Filter from "../components/Filter";
-import DimWindow from "../components/DimWindow";
 import Login from "../components/Login";
 import Header from "../components/Header";
 import {Route} from "react-router-dom";
@@ -12,7 +12,50 @@ import Footer from "../components/Footer";
 import Profile from "../components/Profile";
 
 const App = () => {
-	const cards = [1, 2, 3, 4, 4];
+	const [currentUser, setCurrentUser] = useState(null);
+	const [products, setProducts] = useState([]);
+
+	useEffect(
+		() => {
+			firebase.auth().onAuthStateChanged(FBUser => {
+				if (FBUser) {
+					setCurrentUser({
+						user: FBUser,
+						displayName: FBUser.displayName,
+						userID: FBUser.uid,
+						isAuthenticated: true
+					});
+				} else {
+					setCurrentUser(null);
+				}
+			});
+			loadProductList();
+		},
+		console.error,
+		[]
+	);
+
+	const loadProductList = () => {
+		const productsRef = firebase.database().ref("/products");
+		productsRef.on("value", snapshot => {
+			let products = snapshot.val();
+			let productList = [];
+			for (let item in products) {
+				productList.push({
+					productID: item,
+					imageURL: products[item].downloadURL,
+					title: products[item].title,
+					category: products[item].category,
+					location: products[item].location,
+					currency: products[item].currency,
+					price: products[item].price,
+					content: products[item].content,
+					condition: products[item].condition
+				});
+			}
+			setProducts(productList);
+		});
+	};
 
 	return (
 		<div className="flex flex-wrap">
@@ -30,7 +73,7 @@ const App = () => {
 			<Route
 				exact
 				path="/"
-				render={() => <ProductList products={cards} />}
+				render={() => <ProductList products={products} />}
 			/>
 			<Footer />
 		</div>
