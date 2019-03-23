@@ -1,83 +1,70 @@
-import React, {Component} from "react";
+import React, {useState} from "react";
 import {Link} from "react-router-dom";
+import FormError from "../common/FormError";
 
-class Login extends Component {
-	state = {
-		email: "",
-		password: "",
-		errorMessage: null
-	};
+const Login = ({loginUser}) => {
+	const [email, setEmail] = useState("");
+	const [password, setPassword] = useState("");
+	const [errorMessage, setErrorMessage] = useState(null);
 
-	handleChange = e => {
-		const itemName = e.target.name;
-		const itemValue = e.target.value;
-		this.setState({[itemName]: itemValue});
-	};
-
-	handleSubmit = e => {
+	const handleSubmit = e => {
 		e.preventDefault();
-		// let loginInfo = {
-		// 	email: this.state.email,
-		// 	password: this.state.password
-		// };
-		// this.props.login(loginInfo).catch(e => {
-		// 	this.setState({errorMessage: e.message});
-		// });
+		let loginInfo = {
+			email: email,
+			password: password
+		};
+		loginUser(loginInfo).catch(e => {
+			setErrorMessage(e.message);
+		});
 	};
 
-	render() {
-		const {errorMessage} = this.state;
-
-		return (
-			<div className="w-full px-2 mb-4">
-				<form onSubmit={this.handleSubmit}>
-					<div className="login-details">
-						<p>
-							<Link
-								className="no-underline hover:text-green-light"
-								to="/register">
-								Create a new account.
-							</Link>
-						</p>
-						<div>
-							<div className="section-title">
-								<h3 className="title">Accede a tu cuenta</h3>
-							</div>
-							{/* {errorMessage ? (
-											<FormError message={errorMessage} />
-										) : null} */}
-							<div>
-								<input
-									className="input"
-									type="email"
-									name="email"
-									placeholder="email"
-									value={this.state.email}
-									onChange={this.handleChange}
-									required
-								/>
-							</div>
-							<div>
-								<input
-									className="input"
-									type="password"
-									name="password"
-									placeholder="Password"
-									value={this.state.password}
-									onChange={this.handleChange}
-									required
-								/>
-							</div>
+	return (
+		<div className="w-full px-2 mb-4">
+			<form onSubmit={handleSubmit}>
+				<div className="login-details">
+					<p>
+						<Link
+							className="no-underline hover:text-green-light"
+							to="/register">
+							Create a new account.
+						</Link>
+					</p>
+					<div>
+						<div className="section-title">
+							<h3>Accede a tu cuenta</h3>
 						</div>
-
-						<div className="pull-left">
-							<button className="btn-green">Enter</button>
+						{errorMessage ? <FormError message={errorMessage} /> : null}
+						<div>
+							<input
+								className="input"
+								type="email"
+								name="email"
+								placeholder="email"
+								value={email}
+								onChange={e => setEmail(e.target.value)}
+								required
+							/>
+						</div>
+						<div>
+							<input
+								className="input"
+								type="password"
+								name="password"
+								placeholder="Password"
+								value={password}
+								onChange={e => setPassword(e.target.value)}
+								autoComplete="off"
+								required
+							/>
 						</div>
 					</div>
-				</form>
-			</div>
-		);
-	}
-}
 
+					<div>
+						<button className="btn-green">Enter</button>
+					</div>
+				</div>
+			</form>
+		</div>
+	);
+};
 export default Login;

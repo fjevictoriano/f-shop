@@ -35,6 +35,16 @@ const App = () => {
 		[]
 	);
 
+	const login = async loginInfo => {
+		return firebase
+			.auth()
+			.signInWithEmailAndPassword(loginInfo.email, loginInfo.password)
+			.then(FBUser => {
+				this.setState({isAuthenticated: true});
+				this.props.history.push("/account");
+			});
+	};
+
 	const loadProductList = () => {
 		const productsRef = firebase.database().ref("/products");
 		productsRef.on("value", snapshot => {
@@ -61,7 +71,11 @@ const App = () => {
 		<div className="flex flex-wrap">
 			<Header />
 			<SearchBar />
-			<Route exact path="/login" render={() => <Login />} />
+			<Route
+				exact
+				path="/login"
+				render={() => <Login loginUser={login} />}
+			/>
 			<Route exact path="/register" render={() => <Register />} />
 			<Route exact path="/product/new" render={() => <AddProductForm />} />
 			<Route exact path="/account" render={() => <Profile />} />

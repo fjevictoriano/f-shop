@@ -21,7 +21,7 @@ const Register = props => {
 	const handleChange = e => {
 		const inputName = e.target.name;
 		const inputValue = e.target.value;
-		setInput({[inputName]: inputValue});
+		setInput({...input, [inputName]: inputValue});
 	};
 
 	const handleSubmit = e => {

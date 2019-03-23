@@ -17,13 +17,11 @@ const ProductList = ({products}) => (
 				})}
 			</div>
 			<button
-				className="bg-green
-										
-										h-8 
-										w-64
-										px-45
-										rounded
-							"
+				className="btn-green
+							h-8 
+							w-64
+							px-45
+							rounded"
 				type="submit">
 				View more
 			</button>
