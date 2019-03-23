@@ -1,6 +1,6 @@
 import React, {Component} from "react";
 import FormError from "../../common/FormError";
-import firebase from "../../Firebase";
+import firebase from "../Firebase";
 import {FaEdit} from "react-icons/fa";
 
 import ProducList from "./ProductList";

@@ -1,8 +1,9 @@
 import React from "react";
 import {Link} from "react-router-dom";
 import logo from "../images/logo.png";
+import {FaUserCircle} from "react-icons/fa";
 
-const Header = props => (
+const Header = ({displayName}) => (
 	<div className="w-full mb-4">
 		<header>
 			<div
@@ -11,21 +12,31 @@ const Header = props => (
 								bg-green-light 
 								shadow-lg p-4">
 				<div className="w-3/4" />
-				<div
-					className="w-1/4 
+				{displayName ? (
+					<div className="w-1/4 text-white text-right">
+						<Link to="/account">
+							<FaUserCircle className=" text-4xl" />
+						</Link>
+					</div>
+				) : (
+					<div
+						className="w-1/4 
 							font-sans
 							text-white
 							mx-4">
-					<p>
-						<Link className="no-underline text-text-white" to="/login">
-							Login
-						</Link>
-						/
-						<Link className="no-underline text-text-white" to="/register">
-							register
-						</Link>
-					</p>
-				</div>
+						<p>
+							<Link className="no-underline text-text-white" to="/login">
+								Login
+							</Link>
+							/
+							<Link
+								className="no-underline text-text-white"
+								to="/register">
+								register
+							</Link>
+						</p>
+					</div>
+				)}
 			</div>
 			<div className="flex bg-grey-lightest h-24">
 				<div className="w-2/3 p-8">

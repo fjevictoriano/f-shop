@@ -1,33 +1,35 @@
 import React, {useState, useEffect} from "react";
 import firebase from "../Firebase";
+import {Route, withRouter} from "react-router-dom";
 
 import AddProductForm from "../components/AddProductForm";
 import Login from "../components/Login";
 import Header from "../components/Header";
-import {Route} from "react-router-dom";
 import SearchBar from "../components/SearchBar";
 import ProductList from "../components/ProductList";
+import ProductInfo from "../components/ProductInfo";
 import Register from "../components/Register";
 import Footer from "../components/Footer";
-import Profile from "../components/Profile";
+import Account from "../components/Account";
 
-const App = () => {
-	const [currentUser, setCurrentUser] = useState(null);
+const App = ({history}) => {
+	const [isLoading, setIsLoading] = useState(true);
+	const [userInfo, setUserInfo] = useState(null);
+	const [displayName, setDisplayName] = useState(null);
 	const [products, setProducts] = useState([]);
 
 	useEffect(
 		() => {
 			firebase.auth().onAuthStateChanged(FBUser => {
 				if (FBUser) {
-					setCurrentUser({
+					setUserInfo({
 						user: FBUser,
-						displayName: FBUser.displayName,
 						userID: FBUser.uid,
 						isAuthenticated: true
 					});
-				} else {
-					setCurrentUser(null);
+					setDisplayName(FBUser.displayName);
 				}
+				setIsLoading(false);
 			});
 			loadProductList();
 		},
@@ -40,8 +42,8 @@ const App = () => {
 			.auth()
 			.signInWithEmailAndPassword(loginInfo.email, loginInfo.password)
 			.then(FBUser => {
-				this.setState({isAuthenticated: true});
-				this.props.history.push("/account");
+				setUserInfo({...userInfo, isAuthenticated: true});
+				history.push("/account");
 			});
 	};
 
@@ -67,10 +69,11 @@ const App = () => {
 		});
 	};
 
+	if (isLoading) return <div>Still loading...</div>;
 	return (
 		<div className="flex flex-wrap">
-			<Header />
-			<SearchBar />
+			<Header displayName={displayName} />
+			<Route exact path="/" component={SearchBar} />
 			<Route
 				exact
 				path="/login"
@@ -78,11 +81,11 @@ const App = () => {
 			/>
 			<Route exact path="/register" render={() => <Register />} />
 			<Route exact path="/product/new" render={() => <AddProductForm />} />
-			<Route exact path="/account" render={() => <Profile />} />
+			<Route exact path="/account" render={() => <Account />} />
 			<Route
 				exact
 				path="/product/view/:productID"
-				render={() => <Profile />}
+				render={() => <ProductInfo />}
 			/>
 			<Route
 				exact
@@ -94,4 +97,4 @@ const App = () => {
 	);
 };
 
-export default App;
+export default withRouter(App);
