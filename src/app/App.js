@@ -3,14 +3,14 @@ import firebase from "../Firebase";
 import {Route, withRouter} from "react-router-dom";
 
 import AddProductForm from "../components/AddProductForm";
-import Login from "../components/Login";
+import Login from "../components/user/Login";
 import Header from "../components/Header";
 import SearchBar from "../components/SearchBar";
 import ProductList from "../components/ProductList";
 import ProductInfo from "../components/ProductInfo";
-import Register from "../components/Register";
+import Register from "../components/user/Register";
 import Footer from "../components/Footer";
-import Account from "../components/Account";
+import Account from "../components/user/Account";
 
 const App = ({history}) => {
 	const [isLoading, setIsLoading] = useState(true);
@@ -81,7 +81,11 @@ const App = ({history}) => {
 			/>
 			<Route exact path="/register" render={() => <Register />} />
 			<Route exact path="/product/new" render={() => <AddProductForm />} />
-			<Route exact path="/account" render={() => <Account />} />
+			<Route
+				exact
+				path="/account"
+				render={() => <Account userID={userInfo.userID} />}
+			/>
 			<Route
 				exact
 				path="/product/view/:productID"

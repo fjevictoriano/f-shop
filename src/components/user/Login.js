@@ -1,6 +1,6 @@
 import React, {useState} from "react";
 import {Link} from "react-router-dom";
-import FormError from "../common/FormError";
+import FormError from "../../common/FormError";
 
 const Login = ({loginUser}) => {
 	const [email, setEmail] = useState("");

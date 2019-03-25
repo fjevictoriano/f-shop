@@ -1,7 +1,7 @@
 import React, {useState} from "react";
 import {Link} from "react-router-dom";
-import firebase from "../Firebase";
-import FormError from "../common/FormError";
+import firebase from "../../Firebase";
+import FormError from "../../common/FormError";
 
 const Register = props => {
 	const [input, setInput] = useState({
