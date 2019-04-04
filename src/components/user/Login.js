@@ -17,7 +17,6 @@ const Login = ({loginUser}) => {
 			setErrorMessage(e.message);
 		});
 	};
-
 	return (
 		<div className="w-full px-2 mb-4">
 			<form onSubmit={handleSubmit}>

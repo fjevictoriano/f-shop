@@ -14,8 +14,7 @@ import Account from "../components/user/Account";
 
 const App = ({history}) => {
 	const [isLoading, setIsLoading] = useState(true);
-	const [userInfo, setUserInfo] = useState(null);
-	const [displayName, setDisplayName] = useState(null);
+	const [userInfo, setUserInfo] = useState({ isAuthenticated: false});
 	const [products, setProducts] = useState([]);
 
 	useEffect(
@@ -27,23 +26,35 @@ const App = ({history}) => {
 						userID: FBUser.uid,
 						isAuthenticated: true
 					});
-					setDisplayName(FBUser.displayName);
 				}
 				setIsLoading(false);
 			});
 			loadProductList();
 		},
 		console.error,
-		[]
+		[userInfo.isAuthenticated]
 	);
 
 	const login = async loginInfo => {
 		return firebase
 			.auth()
 			.signInWithEmailAndPassword(loginInfo.email, loginInfo.password)
-			.then(FBUser => {
-				setUserInfo({...userInfo, isAuthenticated: true});
-				history.push("/account");
+			.then(() => history.push("/"));
+			
+	};
+
+	const logoutUser = e => {
+		e.preventDefault();
+		setUserInfo({
+			user: null,
+			UserID: null,
+			isAuthenticated: false
+		});
+		firebase
+			.auth()
+			.signOut()
+			.then(() => {
+				history.push("/");
 			});
 	};
 
@@ -72,7 +83,7 @@ const App = ({history}) => {
 	if (isLoading) return <div>Still loading...</div>;
 	return (
 		<div className="flex flex-wrap">
-			<Header displayName={displayName} />
+			<Header isAuthenticated={userInfo.isAuthenticated} logoutUser={logoutUser} />
 			<Route exact path="/" component={SearchBar} />
 			<Route
 				exact
@@ -84,7 +95,7 @@ const App = ({history}) => {
 			<Route
 				exact
 				path="/account"
-				render={() => <Account userID={userInfo.userID} />}
+				render={() => <Account  userID={userInfo.userID} />}
 			/>
 			<Route
 				exact

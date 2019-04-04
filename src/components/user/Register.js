@@ -24,6 +24,8 @@ const Register = props => {
 		setInput({...input, [inputName]: inputValue});
 	};
 
+console.log('register')
+
 	const handleSubmit = e => {
 		e.preventDefault();
 		// firebase

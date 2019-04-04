@@ -3,9 +3,10 @@
 	"version": "0.1.0",
 	"private": true,
 	"dependencies": {
-		"glhd-tailwindcss-transitions": "^0.3.0",
+		"@emotion/core": "^10.0.10",
 		"@firebase/storage": "^0.2.10",
 		"firebase": "^5.8.6",
+		"glhd-tailwindcss-transitions": "^0.3.0",
 		"react": "^16.8.4",
 		"react-dom": "^16.8.4",
 		"react-icons": "^3.5.0",
@@ -14,7 +15,7 @@
 	},
 	"scripts": {
 		"tailwind:css": "tailwind build src/css/tailwind.src.css -c  tailwind.js -o src/css/tailwind.css",
-		"start": "npm run tailwind:css && react-scripts start",
+		"start": "npm run tailwind:css && react-scripts  start",
 		"build": "npm run tailwind:css && react-scripts build",
 		"test": "react-scripts test",
 		"eject": "react-scripts eject"

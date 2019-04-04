@@ -1,9 +1,10 @@
-import React from "react";
 import {Link} from "react-router-dom";
 import logo from "../images/logo.png";
-import {FaUserCircle} from "react-icons/fa";
+import {FaUserCircle, FaUserAlt, FaSignOutAlt} from "react-icons/fa";
+/**@jsx jsx*/
+import {css, jsx} from "@emotion/core";
 
-const Header = ({displayName}) => (
+const Header = ({ isAuthenticated, logoutUser}) => (
 	<div className="w-full mb-4">
 		<header>
 			<div
@@ -12,11 +13,27 @@ const Header = ({displayName}) => (
 								bg-green-light 
 								shadow-lg p-4">
 				<div className="w-3/4" />
-				{displayName ? (
+				{isAuthenticated ? (
 					<div className="w-1/4 text-white text-right">
-						<Link to="/account">
+						<div className="relative inline-block" css={css`&:hover .dropdown-content{
+													display: block;
+													
+												}`}>
 							<FaUserCircle className=" text-4xl" />
-						</Link>
+							<div className="dropdown-content bg-green-light" css={css`display: none;
+												position: absolute;
+												right:-14px;
+												box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+												z-index: 1;`}>
+								<Link className="no-underline p-2 block " to="/account">
+						
+								Account
+								</Link>
+								<a href="/" onClick={logoutUser} className="no-underline text-center p-2 block border-t-2" to="/">
+									<FaSignOutAlt  />
+								</a>
+							</div>
+						</div>
 					</div>
 				) : (
 					<div
@@ -41,7 +58,10 @@ const Header = ({displayName}) => (
 			<div className="flex bg-grey-lightest h-24">
 				<div className="w-2/3 p-8">
 					<Link to="/">
-						<img className="w-32 " src={logo} alt="company name" />
+						<img className="w-32 "
+							src={logo}
+							alt="company name"
+						/>
 					</Link>
 				</div>
 				<div className="w-1/3" />

@@ -18,7 +18,6 @@ const Account = ({userID}) => {
 		tel: ""
 	});
 	const [products, setProducts] = useState([]);
-
 	const [errorMessage, setErrorMessage] = useState(false);
 
 	const handleChange = e => {
@@ -27,15 +26,17 @@ const Account = ({userID}) => {
 		setInput({...input, [inputName]: inputValue});
 	};
 
+
 	useEffect(
 		() => {
 			loadUserDetail();
 			loadUserProducts();
+		
 		},
 		console.error,
-		[]
+		[userID]
 	);
-
+	
 	const loadUserDetail = () => {
 		const userRef = firebase.database().ref(`/users/${userID}`);
 		userRef.on("value", snapshoot => {
@@ -54,8 +55,8 @@ const Account = ({userID}) => {
 	};
 
 	const loadUserProducts = () => {
-		const userRef = firebase.database().ref("/products");
-		userRef
+		const productsRef = firebase.database().ref("/products");
+		productsRef
 			.orderByChild("userID")
 			.equalTo(userID)
 			.on("value", snapshot => {
@@ -75,6 +76,7 @@ const Account = ({userID}) => {
 					});
 				}
 				setProducts(productList);
+
 			});
 	};
 
@@ -85,7 +87,6 @@ const Account = ({userID}) => {
 	const handleSubmit = e => {
 		e.preventDefault();
 	};
-
 	return (
 		<div className="flex flex-wrap">
 			<form className="flex flex-wrap w-auto p-4" onSubmit={handleSubmit}>
