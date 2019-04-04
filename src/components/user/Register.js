@@ -3,7 +3,8 @@ import {Link} from "react-router-dom";
 import firebase from "../../Firebase";
 import FormError from "../../common/FormError";
 
-const Register = props => {
+const Register = ({ registerUser}) => {
+	const [errorMessage, setErrorMessage] = useState(false);
 	const [input, setInput] = useState({
 		firstName: "",
 		lastName: "",
@@ -16,7 +17,6 @@ const Register = props => {
 		password: ""
 	});
 
-	const [errorMessage, setErrorMessage] = useState(false);
 
 	const handleChange = e => {
 		const inputName = e.target.name;
@@ -24,20 +24,19 @@ const Register = props => {
 		setInput({...input, [inputName]: inputValue});
 	};
 
-console.log('register')
 
 	const handleSubmit = e => {
 		e.preventDefault();
-		// firebase
-		// 	.auth()
-		// 	.createUserWithEmailAndPassword(input.email, input.password)
-		// 	.then(() => {
-		// 		let regInfo = getRegistrationInfo();
-		// 		props.registerUser(regInfo);
-		// 	})
-		// 	.catch(e => {
-		// 		setErrorMessage({errorMessage: e.message});
-		// 	});
+		firebase
+			.auth()
+			.createUserWithEmailAndPassword(input.email, input.password)
+			.then(() => {
+				let regInfo = getRegistrationInfo();
+				registerUser(regInfo);
+			})
+			.catch(e => {
+				setErrorMessage(e.message);
+			});
 	};
 
 	const getRegistrationInfo = () => {

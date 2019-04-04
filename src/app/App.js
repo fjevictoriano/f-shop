@@ -80,6 +80,28 @@ const App = ({history}) => {
 		});
 	};
 
+	const registerUser = (registrationInfo) => {
+		firebase.auth().onAuthStateChanged(FBUser => {
+			FBUser.updateProfile({ displayName: registrationInfo.firstName }).then(
+				() => {
+					setUserInfo({
+						user: FBUser,
+						userID: FBUser.uid,
+						isAuthenticated: true
+					});
+					registrationInfo.userID = FBUser.uid;
+					pushRegistrationDetails(registrationInfo);
+					history.push("/");
+				}
+			);
+		});
+	}; 
+
+	const pushRegistrationDetails = (registrationInfo) =>{
+		const userRef = firebase.database().ref("/users");
+		userRef.child(registrationInfo.userID).set(registrationInfo);
+	}
+
 	if (isLoading) return <div>Still loading...</div>;
 	return (
 		<div className="flex flex-wrap">
@@ -90,7 +112,7 @@ const App = ({history}) => {
 				path="/login"
 				render={() => <Login loginUser={login} />}
 			/>
-			<Route exact path="/register" render={() => <Register />} />
+			<Route exact path="/register" render={() => <Register registerUser={registerUser} />} />
 			<Route exact path="/product/new" render={() => <AddProductForm />} />
 			<Route
 				exact
