@@ -1,6 +1,6 @@
 import {Link} from "react-router-dom";
 import logo from "../images/logo.png";
-import {FaUserCircle, FaUserAlt, FaSignOutAlt} from "react-icons/fa";
+import {FaUserCircle, FaSignOutAlt, FaBullhorn} from "react-icons/fa";
 /**@jsx jsx*/
 import {css, jsx} from "@emotion/core";
 
@@ -64,7 +64,12 @@ const Header = ({ isAuthenticated, logoutUser}) => (
 						/>
 					</Link>
 				</div>
-				<div className="w-1/3" />
+				<div className="w-1/3 py-8"  >
+					<FaBullhorn />
+
+					<input type="button" value="Publicar">
+					</input>
+				</div>
 			</div>
 		</header>
 	</div>

@@ -1,5 +1,6 @@
 import React from "react";
 import Product from "./Product";
+import FloatingButton from "./FloatingButton";
 
 const ProductList = ({products}) => (
 	<div className="w-full mb-4">
@@ -25,6 +26,7 @@ const ProductList = ({products}) => (
 				type="submit">
 				View more
 			</button>
+			<FloatingButton/>
 		</article>
 	</div>
 );
