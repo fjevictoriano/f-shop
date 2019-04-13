@@ -1,35 +1,37 @@
 {
-	"name": "f-shop",
-	"version": "0.1.0",
-	"private": true,
-	"dependencies": {
-		"@emotion/core": "^10.0.10",
-		"@firebase/storage": "^0.2.10",
-		"firebase": "^5.8.6",
-		"glhd-tailwindcss-transitions": "^0.3.0",
-		"react": "^16.8.4",
-		"react-dom": "^16.8.4",
-		"react-icons": "^3.5.0",
-		"react-router-dom": "^5.0.0",
-		"react-scripts": "2.1.8"
-	},
-	"scripts": {
-		"tailwind:css": "tailwind build src/css/tailwind.src.css -c  tailwind.js -o src/css/tailwind.css",
-		"start": "npm run tailwind:css && react-scripts  start",
-		"build": "npm run tailwind:css && react-scripts build",
-		"test": "react-scripts test",
-		"eject": "react-scripts eject"
-	},
-	"eslintConfig": {
-		"extends": "react-app"
-	},
-	"browserslist": [
-		">0.2%",
-		"not dead",
-		"not ie <= 11",
-		"not op_mini all"
-	],
-	"devDependencies": {
-		"tailwindcss": "^0.7.4"
-	}
+  "name": "f-shop",
+  "version": "0.1.0",
+  "private": true,
+  "dependencies": {
+    "@emotion/core": "^10.0.10",
+    "@firebase/storage": "^0.2.10",
+    "firebase": "^5.8.6",
+    "glhd-tailwindcss-transitions": "^0.3.0",
+    "prettier": "^1.16.4",
+    "react": "^16.8.4",
+    "react-dom": "^16.8.4",
+    "react-icons": "^3.5.0",
+    "react-router-dom": "^5.0.0",
+    "react-scripts": "2.1.8"
+  },
+  "scripts": {
+    "tailwind:css": "tailwind build src/css/tailwind.src.css -c  tailwind.js -o src/css/tailwind.css",
+    "start": "npm run tailwind:css && react-scripts  start",
+    "build": "npm run tailwind:css && react-scripts build",
+    "test": "react-scripts test",
+    "format": "prettier --write \"src/**/*.{js,jsx}\"",
+    "eject": "react-scripts eject"
+  },
+  "eslintConfig": {
+    "extends": "react-app"
+  },
+  "browserslist": [
+    ">0.2%",
+    "not dead",
+    "not ie <= 11",
+    "not op_mini all"
+  ],
+  "devDependencies": {
+    "tailwindcss": "^0.7.4"
+  }
 }

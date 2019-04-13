@@ -1,8 +1,8 @@
 import React from "react";
 
 const DimWindow = props => (
-	<div
-		className="p-2 
+  <div
+    className="p-2 
 		
 		bg-grey-lightest 
 		transition-slower 
@@ -12,8 +12,9 @@ const DimWindow = props => (
 		pin-t
 		pint-l
 		overflow-hidden
-		fixed">
-		{props.children}
-	</div>
+		fixed"
+  >
+    {props.children}
+  </div>
 );
 export default DimWindow;
