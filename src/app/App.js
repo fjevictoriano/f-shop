@@ -101,7 +101,7 @@ const App = ({ history }) => {
     userRef.child(registrationInfo.userID).set(registrationInfo);
   };
   const addProduct = productInfo => {
-    const productRef = firebase.database().ref("/products");
+    const productRef = firebase.database().ref(`/products/${userInfo.userID}/`);
     productInfo.userID = userInfo.userID;
     productRef.push(productInfo, () => {
       history.push("/");
