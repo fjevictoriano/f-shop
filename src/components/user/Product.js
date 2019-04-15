@@ -1,13 +1,13 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import { FaTrash } from "react-icons/fa";
-const Product = props => (
+const Product = ({ imageURL, title, productID, deleteProduct }) => (
   <tr>
     <td className="thumb">
-      <img src={props.imageURL} alt="" />
+      <img src={imageURL} alt="" />
     </td>
     <td className="details">
-      <Link to="/account">{props.title}</Link>
+      <Link to="/account">{title}</Link>
       <ul>
         <li>
           <span>Lorem ipsum dolor, sit amet consectetur</span>
@@ -22,7 +22,9 @@ const Product = props => (
                 onClick={() => {}}
                 className="main-btn icon-btn"
               >
-                <FaTrash />
+                <button onClick={deleteProduct(productID)}>
+                  <FaTrash />
+                </button>
               </span>
             </div>
           </div>

@@ -5,7 +5,7 @@ import { FaEdit } from "react-icons/fa";
 
 import ProducList from "./PrductList";
 
-const Account = ({ userID }) => {
+const Account = ({ userID, deleteProduct }) => {
   const [isDisabled, setIsDisabled] = useState(true);
   const [input, setInput] = useState({
     firstName: "",
@@ -213,7 +213,7 @@ const Account = ({ userID }) => {
           <h3 className="title">Products</h3>
         </div>
 
-        <ProducList productList={products} />
+        <ProducList deleteProduct={deleteProduct} products={products} />
       </div>
     </div>
   );

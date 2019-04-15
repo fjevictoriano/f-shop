@@ -120,6 +120,13 @@ const App = ({ history }) => {
     return task;
   };
 
+  const deleteProduct = productID => {
+    const productRef = firebase
+      .storage()
+      .ref(`/products/${userInfo.userID}/${productID}`);
+    productRef.delete();
+  };
+
   if (isLoading) return <div>Still loading...</div>;
   return (
     <div className="flex flex-wrap">
@@ -144,7 +151,9 @@ const App = ({ history }) => {
       <Route
         exact
         path="/account"
-        render={() => <Account userID={userInfo.userID} />}
+        render={() => (
+          <Account userID={userInfo.userID} deleteProduct={deleteProduct} />
+        )}
       />
       <Route
         exact
