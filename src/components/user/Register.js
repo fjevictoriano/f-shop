@@ -1,9 +1,9 @@
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, withRouter } from "react-router-dom";
 import firebase from "../../Firebase";
 import FormError from "../../common/FormError";
 
-const Register = ({ registerUser }) => {
+const Register = ({ history }) => {
   const [errorMessage, setErrorMessage] = useState(false);
   const [input, setInput] = useState({
     firstName: "",
@@ -35,6 +35,24 @@ const Register = ({ registerUser }) => {
       .catch(e => {
         setErrorMessage(e.message);
       });
+  };
+
+  const registerUser = registrationInfo => {
+    let unsubscribe = firebase.auth().onAuthStateChanged(FBUser => {
+      FBUser.updateProfile({ displayName: registrationInfo.firstName }).then(
+        () => {
+          registrationInfo.userID = FBUser.uid;
+          pushRegistrationDetails(registrationInfo);
+          history.push("/");
+          unsubscribe();
+        }
+      );
+    });
+  };
+
+  const pushRegistrationDetails = registrationInfo => {
+    const userRef = firebase.database().ref("/users");
+    userRef.child(registrationInfo.userID).set(registrationInfo);
   };
 
   const getRegistrationInfo = () => {
@@ -166,4 +184,4 @@ const Register = ({ registerUser }) => {
   );
 };
 
-export default Register;
+export default withRouter(Register);

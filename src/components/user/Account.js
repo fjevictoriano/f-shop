@@ -1,11 +1,13 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import FormError from "../../common/FormError";
 import firebase from "../../Firebase";
 import { FaEdit } from "react-icons/fa";
 
 import ProducList from "./PrductList";
+import { UserContext } from "../../providers/UserProvider";
 
-const Account = ({ userID, deleteProduct }) => {
+const Account = () => {
+  const { userID } = useContext(UserContext);
   const [isDisabled, setIsDisabled] = useState(true);
   const [input, setInput] = useState({
     firstName: "",
@@ -213,7 +215,7 @@ const Account = ({ userID, deleteProduct }) => {
           <h3 className="title">Products</h3>
         </div>
 
-        <ProducList deleteProduct={deleteProduct} products={products} />
+        <ProducList products={products} />
       </div>
     </div>
   );

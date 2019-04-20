@@ -1,21 +1,30 @@
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, withRouter } from "react-router-dom";
 import FormError from "../../common/FormError";
+import firebase from "../../Firebase";
 
-const Login = ({ loginUser }) => {
+const Login = ({ history }) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [errorMessage, setErrorMessage] = useState(null);
 
+  const login = ({ email, password }) => {
+    firebase
+      .auth()
+      .signInWithEmailAndPassword(email, password)
+      .then(() => history.push("/"))
+      .catch(e => {
+        setErrorMessage(e.message);
+      });
+  };
+
   const handleSubmit = e => {
     e.preventDefault();
-    let loginInfo = {
+    let loginDetails = {
       email: email,
       password: password
     };
-    loginUser(loginInfo).catch(e => {
-      setErrorMessage(e.message);
-    });
+    login(loginDetails);
   };
   return (
     <div className="w-full px-2 mb-4">
@@ -67,4 +76,4 @@ const Login = ({ loginUser }) => {
     </div>
   );
 };
-export default Login;
+export default withRouter(Login);

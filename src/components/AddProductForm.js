@@ -1,7 +1,9 @@
 import React, { useState, useRef } from "react";
 import useDropdown from "../components/hooks/useDropdown";
+import { withRouter } from "react-router-dom";
+import firebase, { firestore } from "../Firebase";
 
-const AddProductForm = ({ uploadImage, addProduct }) => {
+const AddProductForm = ({ history, userID }) => {
   const inputImage = useRef(null);
   const [input, setInput] = useState({
     imageFile: "",
@@ -13,6 +15,21 @@ const AddProductForm = ({ uploadImage, addProduct }) => {
     content: "",
     condition: ""
   });
+
+  const addProduct = async productInfo => {
+    await firestore.collection("products").add(productInfo);
+    history.push("/");
+  };
+
+  const uploadImage = imageFile => {
+    const ref = firebase.storage().ref(`users/${userID}/images/product`);
+    const name = +new Date() + "-" + imageFile.name;
+    const metadata = {
+      contentType: imageFile.type
+    };
+    const task = ref.child(name).put(imageFile, metadata);
+    return task;
+  };
 
   const handleChange = e => {
     const inputName = e.target.name;
@@ -143,4 +160,4 @@ const AddProductForm = ({ uploadImage, addProduct }) => {
     </form>
   );
 };
-export default AddProductForm;
+export default withRouter(AddProductForm);

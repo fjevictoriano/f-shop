@@ -5,11 +5,17 @@ import "./css/tailwind.css";
 import App from "./app/App";
 import * as serviceWorker from "./serviceWorker";
 import { BrowserRouter } from "react-router-dom";
+import ProductsProvider from "./providers/ProductsProvider";
+import UserProvider from "./providers/UserProvider";
 
 ReactDOM.render(
-  <BrowserRouter>
-    <App />
-  </BrowserRouter>,
+  <UserProvider>
+    <ProductsProvider>
+      <BrowserRouter>
+        <App />
+      </BrowserRouter>
+    </ProductsProvider>
+  </UserProvider>,
   document.getElementById("root")
 );
 

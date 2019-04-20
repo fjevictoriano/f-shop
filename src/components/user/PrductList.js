@@ -1,7 +1,7 @@
 import React from "react";
 import Product from "./Product";
 
-const ProductList = ({ deleteProduct, products }) => (
+const ProductList = ({ products }) => (
   <table className="shopping-cart-table table">
     <thead />
     <tbody>
@@ -11,7 +11,6 @@ const ProductList = ({ deleteProduct, products }) => (
             key={product.productID}
             title={product.title}
             imageURL={product.imageURL}
-            deleteProduct={deleteProduct}
           />
         );
       })}
