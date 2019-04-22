@@ -1,9 +1,11 @@
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, useContext } from "react";
 import useDropdown from "../components/hooks/useDropdown";
 import { withRouter } from "react-router-dom";
 import firebase, { firestore } from "../Firebase";
+import { UserContext } from "../providers/UserProvider";
 
-const AddProductForm = ({ history, userID }) => {
+const AddProductForm = ({ history }) => {
+  const { userID } = useContext(UserContext);
   const inputImage = useRef(null);
   const [input, setInput] = useState({
     imageFile: "",
@@ -44,7 +46,7 @@ const AddProductForm = ({ history, userID }) => {
       .then(snapshot => snapshot.ref.getDownloadURL())
       .then(url => {
         let productInfo = getProductInfo();
-        productInfo.downloadURL = url;
+        productInfo.imageURL = url;
         addProduct(productInfo);
       })
 
@@ -53,6 +55,7 @@ const AddProductForm = ({ history, userID }) => {
 
   const getProductInfo = () => {
     return {
+      userID: userID,
       title: input.title,
       category: input.category,
       location: input.location,

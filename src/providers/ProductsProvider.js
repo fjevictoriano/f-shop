@@ -1,5 +1,5 @@
 import React, { Component, createContext } from "react";
-import { collectIdAndDocs } from "../utilities";
+import { collectIdAndDocs } from "../common/utilities";
 import { firestore } from "../Firebase";
 
 export const ProductsContext = createContext();

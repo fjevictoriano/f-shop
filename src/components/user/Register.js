@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { Link, withRouter } from "react-router-dom";
-import firebase from "../../Firebase";
+import firebase, { firestore } from "../../Firebase";
 import FormError from "../../common/FormError";
 
 const Register = ({ history }) => {
@@ -29,33 +29,36 @@ const Register = ({ history }) => {
       .auth()
       .createUserWithEmailAndPassword(input.email, input.password)
       .then(() => {
-        let regInfo = getRegistrationInfo();
-        registerUser(regInfo);
+        let userDetails = getuserDetails();
+        registerUser(userDetails);
       })
       .catch(e => {
         setErrorMessage(e.message);
       });
   };
 
-  const registerUser = registrationInfo => {
+  const registerUser = userDetails => {
     let unsubscribe = firebase.auth().onAuthStateChanged(FBUser => {
-      FBUser.updateProfile({ displayName: registrationInfo.firstName }).then(
-        () => {
-          registrationInfo.userID = FBUser.uid;
-          pushRegistrationDetails(registrationInfo);
-          history.push("/");
-          unsubscribe();
-        }
-      );
+      FBUser.updateProfile({
+        displayName: userDetails.firstName + " " + userDetails.lastName
+      }).then(() => {
+        userDetails.id = FBUser.uid;
+        console.log(userDetails.id);
+        pushUserDetails(userDetails);
+        history.push("/");
+        unsubscribe();
+      });
     });
   };
 
-  const pushRegistrationDetails = registrationInfo => {
-    const userRef = firebase.database().ref("/users");
-    userRef.child(registrationInfo.userID).set(registrationInfo);
+  const pushUserDetails = async userDetails => {
+    await firestore
+      .collection("users")
+      .doc(userDetails.id)
+      .set(userDetails);
   };
 
-  const getRegistrationInfo = () => {
+  const getuserDetails = () => {
     return {
       firstName: input.firstName,
       lastName: input.lastName,
