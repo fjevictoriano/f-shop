@@ -1,10 +1,11 @@
 import React, { useState, useEffect, useContext } from "react";
 import FormError from "../../common/FormError";
-import firebase from "../../Firebase";
+import firebase, { firestore } from "../../Firebase";
 import { FaEdit } from "react-icons/fa";
 
 import ProducList from "./PrductList";
 import { UserContext } from "../../providers/UserProvider";
+import { collectIdAndDocs } from "../../common/utilities";
 
 const Account = () => {
   const { userID } = useContext(UserContext);
@@ -38,19 +39,11 @@ const Account = () => {
   );
 
   const loadUserDetail = () => {
-    const userRef = firebase.database().ref(`/users/${userID}`);
-    userRef.on("value", snapshoot => {
-      let user = snapshoot.val();
-      setInput({
-        firstName: user.firstName,
-        lastName: user.lastName,
-        email: user.email,
-        address: user.address,
-        city: user.city,
-        country: user.country,
-        zipCode: user.zipCode,
-        tel: user.tel
-      });
+    let usersRef = firestore.collection("users");
+    let query = usersRef.where("id", "==", userID);
+    query.get().then(snapshot => {
+      let user = snapshot.docs.map(collectIdAndDocs)[0];
+      setInput(user);
     });
   };
 
