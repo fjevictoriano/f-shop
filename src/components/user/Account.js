@@ -38,13 +38,12 @@ const Account = () => {
     [userID]
   );
 
-  const loadUserDetail = () => {
+  const loadUserDetail = async () => {
     let usersRef = firestore.collection("users");
-    let query = usersRef.where("id", "==", userID);
-    query.get().then(snapshot => {
-      let user = snapshot.docs.map(collectIdAndDocs)[0];
-      setInput(user);
-    });
+    let userRef = usersRef.where("id", "==", userID);
+    let snapshot = await userRef.get();
+    let user = snapshot.docs.map(collectIdAndDocs)[0];
+    setInput(user);
   };
 
   const loadUserProducts = () => {

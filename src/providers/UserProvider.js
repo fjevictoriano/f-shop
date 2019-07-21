@@ -6,7 +6,7 @@ export const UserContext = createContext();
 class UserProvider extends Component {
   state = {
     userInfo: {
-      userID: null,
+      userID: localStorage.getItem("userID"),
       isAuthenticated: false
     }
   };
@@ -22,6 +22,7 @@ class UserProvider extends Component {
             isAuthenticated: true
           }
         });
+        this.storeUserID();
       } else {
         this.setState({
           userInfo: {
@@ -31,6 +32,12 @@ class UserProvider extends Component {
         });
       }
     });
+  }
+
+  storeUserID() {
+    if (typeof this.userInfo == "undefined") {
+      localStorage.setItem("userID", this.state.userInfo.userID);
+    }
   }
 
   componentWillUnmount() {
