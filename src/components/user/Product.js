@@ -2,11 +2,11 @@ import React from "react";
 import { Link } from "react-router-dom";
 import { FaTrash } from "react-icons/fa";
 import { firestore } from "../../Firebase";
-const Product = ({ imageURL, title, productID }) => {
-  const deleteProduct = productID => {
+const Product = ({ imageURL, title, id }) => {
+  const deleteProduct = id => {
     firestore
       .collection("products")
-      .doc(productID)
+      .doc(id)
       .delete();
   };
   return (
@@ -30,7 +30,7 @@ const Product = ({ imageURL, title, productID }) => {
                   onClick={() => {}}
                   className="main-btn icon-btn"
                 >
-                  <button onClick={deleteProduct(productID)}>
+                  <button onClick={deleteProduct(id)}>
                     <FaTrash />
                   </button>
                 </span>

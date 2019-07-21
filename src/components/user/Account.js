@@ -32,7 +32,6 @@ const Account = () => {
   useEffect(
     () => {
       loadUserDetail();
-      loadUserProducts();
     },
     console.error,
     [userID]
@@ -44,31 +43,16 @@ const Account = () => {
     let snapshot = await userRef.get();
     let user = snapshot.docs.map(collectIdAndDocs)[0];
     setInput(user);
+    loadUserProducts(userID);
   };
 
-  const loadUserProducts = () => {
-    const productsRef = firebase.database().ref("/products");
-    productsRef
-      .orderByChild("userID")
-      .equalTo(userID)
-      .on("value", snapshot => {
-        let products = snapshot.val();
-        let productList = [];
-        for (let item in products) {
-          productList.push({
-            productID: item,
-            imageURL: products[item].downloadURL,
-            title: products[item].title,
-            category: products[item].category,
-            location: products[item].location,
-            currency: products[item].currency,
-            price: products[item].price,
-            content: products[item].content,
-            condition: products[item].condition
-          });
-        }
-        setProducts(productList);
-      });
+  const loadUserProducts = async userID => {
+    let productsRef = firestore.collection("products");
+    let userProductsRef = productsRef.where("userID", "==", userID);
+    let snapshot = await userProductsRef.get();
+    let userProducts = snapshot.docs.map(collectIdAndDocs);
+    console.log(userProducts);
+    setProducts(userProducts);
   };
 
   const editFields = () => {

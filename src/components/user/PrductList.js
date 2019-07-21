@@ -8,7 +8,8 @@ const ProductList = ({ products }) => (
       {products.map(product => {
         return (
           <Product
-            key={product.productID}
+            key={product.id}
+            id={product.id}
             title={product.title}
             imageURL={product.imageURL}
           />
