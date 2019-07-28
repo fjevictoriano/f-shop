@@ -18,9 +18,17 @@ const AddProductForm = ({ history }) => {
     condition: ""
   });
 
-  const addProduct = async productInfo => {
-    await firestore.collection("products").add(productInfo);
-    history.push("/");
+  const addProduct = productInfo => {
+    debugger;
+    firestore
+      .collection("products")
+      .add(productInfo)
+      .then(docRef => {
+        history.push("/");
+      })
+      .then(error => {
+        console.error(error);
+      });
   };
 
   const uploadImage = imageFile => {

@@ -6,9 +6,12 @@ import { FaEdit } from "react-icons/fa";
 import ProducList from "./PrductList";
 import { UserContext } from "../../providers/UserProvider";
 import { collectIdAndDocs } from "../../common/utilities";
+import { ProductsContext } from "../../providers/ProductsProvider";
 
 const Account = () => {
   const { userID } = useContext(UserContext);
+  const products = useContext(ProductsContext);
+  const [errorMessage, setErrorMessage] = useState(false);
   const [isDisabled, setIsDisabled] = useState(true);
   const [input, setInput] = useState({
     firstName: "",
@@ -20,8 +23,6 @@ const Account = () => {
     zipCode: "",
     tel: ""
   });
-  const [products, setProducts] = useState([]);
-  const [errorMessage, setErrorMessage] = useState(false);
 
   const handleChange = e => {
     const inputName = e.target.name;
@@ -43,16 +44,8 @@ const Account = () => {
     let snapshot = await userRef.get();
     let user = snapshot.docs.map(collectIdAndDocs)[0];
     setInput(user);
-    loadUserProducts(userID);
-  };
-
-  const loadUserProducts = async userID => {
-    let productsRef = firestore.collection("products");
-    let userProductsRef = productsRef.where("userID", "==", userID);
-    let snapshot = await userProductsRef.get();
-    let userProducts = snapshot.docs.map(collectIdAndDocs);
-    console.log(userProducts);
-    setProducts(userProducts);
+    // console.log(products);
+    // setUserProducts(products.filter(p => p.userID === userID));
   };
 
   const editFields = () => {
@@ -62,6 +55,8 @@ const Account = () => {
   const handleSubmit = e => {
     e.preventDefault();
   };
+
+  console.log(products)
   return (
     <div className="flex flex-wrap">
       <form className="flex flex-wrap w-auto p-4" onSubmit={handleSubmit}>

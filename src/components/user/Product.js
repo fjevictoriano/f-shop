@@ -30,7 +30,11 @@ const Product = ({ imageURL, title, id }) => {
                   onClick={() => {}}
                   className="main-btn icon-btn"
                 >
-                  <button onClick={deleteProduct(id)}>
+                  <button
+                    onClick={() => {
+                      deleteProduct(id);
+                    }}
+                  >
                     <FaTrash />
                   </button>
                 </span>
