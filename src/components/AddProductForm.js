@@ -18,29 +18,6 @@ const AddProductForm = ({ history }) => {
     condition: ""
   });
 
-  const addProduct = productInfo => {
-    debugger;
-    firestore
-      .collection("products")
-      .add(productInfo)
-      .then(docRef => {
-        history.push("/");
-      })
-      .then(error => {
-        console.error(error);
-      });
-  };
-
-  const uploadImage = imageFile => {
-    const ref = firebase.storage().ref(`users/${userID}/images/product`);
-    const name = +new Date() + "-" + imageFile.name;
-    const metadata = {
-      contentType: imageFile.type
-    };
-    const task = ref.child(name).put(imageFile, metadata);
-    return task;
-  };
-
   const handleChange = e => {
     const inputName = e.target.name;
     const inputValue = e.target.value;
@@ -59,6 +36,28 @@ const AddProductForm = ({ history }) => {
       })
 
       .catch(console.error);
+  };
+
+  const uploadImage = imageFile => {
+    const ref = firebase.storage().ref(`users/${userID}/images/product`);
+    const name = +new Date() + "-" + imageFile.name;
+    const metadata = {
+      contentType: imageFile.type
+    };
+    const task = ref.child(name).put(imageFile, metadata);
+    return task;
+  };
+
+  const addProduct = productInfo => {
+    firestore
+      .collection("products")
+      .add(productInfo)
+      .then(() => {
+        history.push("/");
+      })
+      .catch(error => {
+        console.error("Error writing document: ", error);
+      });
   };
 
   const getProductInfo = () => {

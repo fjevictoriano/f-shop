@@ -56,7 +56,6 @@ const Account = () => {
     e.preventDefault();
   };
 
-  console.log(products)
   return (
     <div className="flex flex-wrap">
       <form className="flex flex-wrap w-auto p-4" onSubmit={handleSubmit}>
